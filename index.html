@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Sara 💜</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="stars"></div>
+
+  <header class="hero">
+    <div class="hero-content">
+      <div class="avatar">👩‍🏫</div>
+      <h1 class="hero-title">Teacher Sara</h1>
+      <p class="hero-subtitle">Teaching with love and purple 💜</p>
+      <p class="hero-by">Hecho con cariño por <strong>Agus</strong></p>
+    </div>
+  </header>
+
+  <section class="about">
+    <div class="container">
+      <h2>✨ Sobre Sara ✨</h2>
+      <p>Sara es una profe de inglés que llena sus clases de color morado, canciones y mucho cariño. Dulce, amable y siempre con una sonrisa. Esta página es un pequeño regalo para ella, con herramientas para sus peques y un diseño tan bonito como ella. 🥰</p>
+    </div>
+  </section>
+
+  <section class="tools">
+    <div class="container">
+      <h2>🧰 Mis herramientas</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-tool="wheel">🎡 Ruleta</button>
+        <button class="tab-btn" data-tool="flashcards">🃏 Flashcards</button>
+        <button class="tab-btn" data-tool="memory">🧠 Memoria</button>
+        <button class="tab-btn" data-tool="points">⭐ Puntos</button>
+        <button class="tab-btn" data-tool="word">📖 Word of the Day</button>
+        <button class="tab-btn" data-tool="coloring">🎨 Colorear</button>
+        <button class="tab-btn" data-tool="stories">📖 Cuentos</button>
+      </div>
+
+      <div class="tool-panel active" id="tool-wheel">
+        <h3>🎡 Ruleta de vocabulario</h3>
+        <p>¡Haz clic para girar y descubre una palabra!</p>
+        <div class="wheel-wrapper">
+          <canvas id="wheelCanvas" width="300" height="300"></canvas>
+          <button class="btn-wheel" id="spinBtn">🎯 ¡Girar!</button>
+        </div>
+        <div class="wheel-result" id="wheelResult">✨</div>
+      </div>
+
+      <div class="tool-panel" id="tool-flashcards">
+        <h3>🃏 Generador de flashcards</h3>
+        <p>Escribe una palabra y pulsa el botón para crear una tarjeta.</p>
+        <div class="flashcard-form">
+          <input type="text" id="flashcardInput" placeholder="Ej: butterfly / mariposa" maxlength="40">
+          <button class="btn" id="flashcardBtn">✨ Crear tarjeta</button>
+        </div>
+        <div class="flashcard-container" id="flashcardContainer">
+          <div class="flashcard" id="flashcard">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">💜</div>
+              <div class="flashcard-back">¡Tu palabra aquí!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-panel" id="tool-memory">
+        <h3>🧠 Juego de memoria</h3>
+        <p>Encuentra las parejas de emojis. ¡A ver si los peques ganan!</p>
+        <div class="memory-grid" id="memoryGrid"></div>
+        <div class="memory-info">
+          <span id="memoryPairs">Pares: 0 / 6</span>
+          <button class="btn" id="memoryReset">🔄 Reiniciar</button>
+        </div>
+      </div>
+
+      <div class="tool-panel" id="tool-points">
+        <h3>⭐ Contador de puntos</h3>
+        <p>¡Premia a tus alumnos con estrellas moradas!</p>
+        <div class="points-display">
+          <span class="points-star">⭐</span>
+          <span class="points-count" id="pointsCount">0</span>
+        </div>
+        <div class="points-buttons">
+          <button class="btn" id="pointsAdd">➕ Añadir punto</button>
+          <button class="btn btn-secondary" id="pointsReset">🔄 Reset</button>
+        </div>
+        <div class="confetti-container" id="confettiContainer"></div>
+      </div>
+
+      <div class="tool-panel" id="tool-word">
+        <h3>📖 Word of the Day</h3>
+        <p>La palabra de hoy para tus clases 💜</p>
+        <div class="word-card" id="wordCard">
+          <div class="word-emoji" id="wordEmoji">🐱</div>
+          <div class="word-text" id="wordText">Cat</div>
+          <div class="word-translation" id="wordTranslation">Gato</div>
+        </div>
+        <button class="btn" id="wordBtn">🔄 Nueva palabra</button>
+      </div>
+
+      <div class="tool-panel" id="tool-coloring">
+        <h3>🎨 Dibujos para colorear</h3>
+        <p>Haz clic en un dibujo para verlo más grande. ¡A imprimir y colorear!</p>
+        <div class="coloring-grid">
+          <div class="coloring-item" data-svg="cat">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="100" cy="70" r="35" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <polygon points="70,45 60,15 80,35" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <polygon points="130,45 140,15 120,35" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="88" cy="65" rx="4" ry="6" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <ellipse cx="112" cy="65" rx="4" ry="6" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <circle cx="88" cy="63" r="2" fill="#7d3c98"/>
+              <circle cx="112" cy="63" r="2" fill="#7d3c98"/>
+              <ellipse cx="100" cy="75" rx="5" ry="3" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M95 80 Q100 88 105 80" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M100 105 L100 160" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M100 115 L70 150" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M100 115 L130 150" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M100 160 L85 195" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M100 160 L115 195" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M60 85 L40 100" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M140 85 L160 100" fill="none" stroke="#7d3c98" stroke-width="3"/>
+            </svg>
+            <span>🐱 Cat</span>
+          </div>
+          <div class="coloring-item" data-svg="butterfly">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="100" cy="100" rx="8" ry="35" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <circle cx="100" cy="62" r="5" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <ellipse cx="75" cy="85" rx="30" ry="20" fill="none" stroke="#7d3c98" stroke-width="3" transform="rotate(-20 75 85)"/>
+              <ellipse cx="125" cy="85" rx="30" ry="20" fill="none" stroke="#7d3c98" stroke-width="3" transform="rotate(20 125 85)"/>
+              <ellipse cx="80" cy="115" rx="22" ry="16" fill="none" stroke="#7d3c98" stroke-width="3" transform="rotate(15 80 115)"/>
+              <ellipse cx="120" cy="115" rx="22" ry="16" fill="none" stroke="#7d3c98" stroke-width="3" transform="rotate(-15 120 115)"/>
+              <path d="M95 100 Q85 105 95 110" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M105 100 Q115 105 105 110" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M98 95 Q100 90 102 95" fill="none" stroke="#7d3c98" stroke-width="2"/>
+            </svg>
+            <span>🦋 Butterfly</span>
+          </div>
+          <div class="coloring-item" data-svg="flower">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="100" cy="100" r="12" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="100" cy="72" rx="10" ry="18" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="100" cy="128" rx="10" ry="18" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="72" cy="100" rx="18" ry="10" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="128" cy="100" rx="18" ry="10" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="78" cy="78" rx="10" ry="14" fill="none" stroke="#7d3c98" stroke-width="3" transform="rotate(45 78 78)"/>
+              <ellipse cx="122" cy="78" rx="10" ry="14" fill="none" stroke="#7d3c98" stroke-width="3" transform="rotate(-45 122 78)"/>
+              <ellipse cx="78" cy="122" rx="10" ry="14" fill="none" stroke="#7d3c98" stroke-width="3" transform="rotate(-45 78 122)"/>
+              <ellipse cx="122" cy="122" rx="10" ry="14" fill="none" stroke="#7d3c98" stroke-width="3" transform="rotate(45 122 122)"/>
+              <path d="M100 140 L100 195" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M100 170 L85 185" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M100 170 L115 185" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="90" cy="155" rx="12" ry="5" fill="none" stroke="#7d3c98" stroke-width="2"/>
+            </svg>
+            <span>🌸 Flower</span>
+          </div>
+          <div class="coloring-item" data-svg="bunny">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="100" cy="105" rx="35" ry="40" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="100" cy="55" rx="22" ry="28" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="80" cy="30" rx="12" ry="28" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="120" cy="30" rx="12" ry="28" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <circle cx="88" cy="52" r="4" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <circle cx="112" cy="52" r="4" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <circle cx="88" cy="50" r="1.5" fill="#7d3c98"/>
+              <circle cx="112" cy="50" r="1.5" fill="#7d3c98"/>
+              <ellipse cx="100" cy="60" rx="4" ry="2.5" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M95 65 Q100 72 105 65" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M85 75 Q80 80 85 85" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M115 75 Q120 80 115 85" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M100 145 L100 175" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="90" cy="175" rx="15" ry="6" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <ellipse cx="110" cy="175" rx="15" ry="6" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <circle cx="100" cy="145" r="8" fill="none" stroke="#7d3c98" stroke-width="2"/>
+            </svg>
+            <span>🐰 Bunny</span>
+          </div>
+          <div class="coloring-item" data-svg="star">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="100,15 120,70 180,75 135,115 150,175 100,145 50,175 65,115 20,75 80,70" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <circle cx="100" cy="95" r="20" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M100 75 L100 115" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M80 95 L120 95" fill="none" stroke="#7d3c98" stroke-width="2"/>
+            </svg>
+            <span>⭐ Star</span>
+          </div>
+          <div class="coloring-item" data-svg="heart">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <path d="M100 175 C30 120 10 70 40 40 C70 10 100 40 100 40 C100 40 130 10 160 40 C190 70 170 120 100 175Z" fill="none" stroke="#7d3c98" stroke-width="3"/>
+              <path d="M100 55 L100 100" fill="none" stroke="#7d3c98" stroke-width="2"/>
+              <path d="M75 80 L125 80" fill="none" stroke="#7d3c98" stroke-width="2"/>
+            </svg>
+            <span>💜 Heart</span>
+          </div>
+        </div>
+        <div class="coloring-modal" id="coloringModal">
+          <div class="coloring-modal-content">
+            <button class="coloring-close" id="coloringClose">&times;</button>
+            <div id="coloringModalSvg"></div>
+            <p class="coloring-hint">💜 Imprime y colorea este dibujo</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-panel" id="tool-stories">
+        <h3>📖 Cuentos para Sara</h3>
+        <p>Pequeñas historias en inglés para leer en clase 💜</p>
+        <div class="story-selector">
+          <button class="story-btn active" data-story="1">🌟 The Purple Butterfly</button>
+          <button class="story-btn" data-story="2">🌈 The Kind Rainbow</button>
+          <button class="story-btn" data-story="3">💜 Lily and the Purple Heart</button>
+        </div>
+        <div class="story-content" id="storyContent">
+          <div class="story-text">
+            <h4>🌟 The Purple Butterfly</h4>
+            <p class="story-english">Once upon a time, there was a little purple butterfly named Violeta. She lived in a beautiful garden full of flowers. Every morning, she would fly from flower to flower, singing a happy song.</p>
+            <p class="story-english">One day, she met a sad little girl named Sara. "Why are you sad?" asked Violeta.</p>
+            <p class="story-english">"I have no one to play with," said Sara.</p>
+            <p class="story-english">"I will play with you!" said Violeta. And they played together all day, laughing and dancing among the flowers.</p>
+            <p class="story-english">From that day on, Sara was never sad again. She had a purple friend who loved her.</p>
+            <div class="story-moral">💜 <em>Moral: A true friend can make everything better.</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="resources">
+    <div class="container">
+      <h2>📚 Recursos favoritos</h2>
+      <div class="resource-links">
+        <a href="#" class="resource-link" data-tool-link="wheel">🎡 Ruleta</a>
+        <a href="#" class="resource-link" data-tool-link="flashcards">🃏 Flashcards</a>
+        <a href="#" class="resource-link" data-tool-link="memory">🧠 Memoria</a>
+        <a href="#" class="resource-link" data-tool-link="coloring">🎨 Colorear</a>
+        <a href="#" class="resource-link" data-tool-link="stories">📖 Cuentos</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Hecho con 💜 por <strong>Agus</strong> &middot; 2026</p>
+      <p class="footer-dedicated">Para Sara, la profe más dulce del mundo 🥰</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
