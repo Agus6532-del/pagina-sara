@@ -587,4 +587,9 @@ document.addEventListener('DOMContentLoaded', () => {
     resetInactivityTimer();
   }, 1500);
 
+  // =============================================
+  // 11. NEKO GATITO MORADO (sigue el mouse)
+  // =============================================
+  window.neko = createNeko({ speed: 24 });
+
 });
