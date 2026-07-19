@@ -445,11 +445,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function wbGetPos(e) {
     const rect = wbCanvas.getBoundingClientRect();
-    const cssX = e.touches ? e.touches[0].clientX : e.clientX;
-    const cssY = e.touches ? e.touches[0].clientY : e.clientY;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const borderX = (rect.width - wbCanvas.clientWidth) / 2;
+    const borderY = (rect.height - wbCanvas.clientHeight) / 2;
     return {
-      x: (cssX - rect.left) / rect.width * 1400,
-      y: (cssY - rect.top) / rect.height * 800
+      x: (clientX - rect.left - borderX) / wbCanvas.clientWidth * 1400,
+      y: (clientY - rect.top - borderY) / wbCanvas.clientHeight * 800
     };
   }
 
