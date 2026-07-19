@@ -430,7 +430,100 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =============================================
-  // 10. NEKO GATITO MORADO (sigue el mouse)
+  // 11. PIZARRA VIRTUAL
+  // =============================================
+  const wbCanvas = document.getElementById('wbCanvas');
+  let wbCtx, drawing = false, erasing = false, wbColor = '#4a235a', wbSize = 5, lastX, lastY;
+
+  function initWhiteboard() {
+    const rect = wbCanvas.getBoundingClientRect();
+    wbCanvas.width = rect.width * 2;
+    wbCanvas.height = rect.height * 2;
+    wbCtx = wbCanvas.getContext('2d');
+    wbCtx.scale(2, 2);
+    wbCtx.lineCap = 'round';
+    wbCtx.lineJoin = 'round';
+  }
+
+  function getPos(e) {
+    const rect = wbCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: clientX - rect.left, y: clientY - rect.top };
+  }
+
+  function startDraw(e) {
+    drawing = true;
+    const pos = getPos(e);
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  function draw(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    wbCtx.beginPath();
+    wbCtx.moveTo(lastX, lastY);
+    wbCtx.lineTo(pos.x, pos.y);
+    wbCtx.strokeStyle = erasing ? '#fff' : wbColor;
+    wbCtx.lineWidth = erasing ? wbSize * 3 : wbSize;
+    wbCtx.stroke();
+    lastX = pos.x;
+    lastY = pos.y;
+  }
+
+  function stopDraw() { drawing = false; }
+
+  // Init on first time whiteboard tab is shown
+  let wbInitialized = false;
+  document.querySelector('.tab-btn[data-tool="whiteboard"]').addEventListener('click', () => {
+    if (!wbInitialized) {
+      initWhiteboard();
+      wbInitialized = true;
+    }
+  });
+
+  wbCanvas.addEventListener('mousedown', startDraw);
+  wbCanvas.addEventListener('mousemove', draw);
+  wbCanvas.addEventListener('mouseup', stopDraw);
+  wbCanvas.addEventListener('mouseleave', stopDraw);
+  wbCanvas.addEventListener('touchstart', startDraw, { passive: false });
+  wbCanvas.addEventListener('touchmove', draw, { passive: false });
+  wbCanvas.addEventListener('touchend', stopDraw);
+
+  // Color buttons
+  document.querySelectorAll('.wb-color-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelector('.wb-color-btn.active')?.classList.remove('active');
+      btn.classList.add('active');
+      wbColor = btn.dataset.color;
+    });
+  });
+
+  // Size buttons
+  document.querySelectorAll('.wb-size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelector('.wb-size-btn.active')?.classList.remove('active');
+      btn.classList.add('active');
+      wbSize = parseInt(btn.dataset.size);
+    });
+  });
+
+  // Eraser
+  document.getElementById('wbEraser').addEventListener('click', function () {
+    this.classList.toggle('active');
+    erasing = this.classList.contains('active');
+    wbCanvas.style.cursor = erasing ? 'cell' : 'crosshair';
+  });
+
+  // Clear
+  document.getElementById('wbClear').addEventListener('click', () => {
+    wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
+  });
+
+  // =============================================
+  // 12. NEKO GATITO MORADO (sigue el mouse)
   // =============================================
   window.neko = createNeko({ speed: 24 });
 

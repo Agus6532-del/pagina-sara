@@ -40,6 +40,7 @@
         <button class="tab-btn" data-tool="word">📖 Word of the Day</button>
         <button class="tab-btn" data-tool="coloring">🎨 Colorear</button>
         <button class="tab-btn" data-tool="stories">📖 Cuentos</button>
+        <button class="tab-btn" data-tool="whiteboard">✏️ Pizarra</button>
       </div>
 
       <div class="tool-panel active" id="tool-wheel">
@@ -228,6 +229,30 @@
             <div class="story-moral">💜 <em>Moral: A true friend can make everything better.</em></div>
           </div>
         </div>
+      <div class="tool-panel" id="tool-whiteboard">
+        <h3>✏️ Pizarra virtual</h3>
+        <p>Dibujá, escribí o borrá — ideal para explicar vocabulario en clase 💜</p>
+        <div class="whiteboard-toolbar">
+          <div class="wb-colors">
+            <button class="wb-color-btn active" data-color="#4a235a" style="background:#4a235a"></button>
+            <button class="wb-color-btn" data-color="#9b59b6" style="background:#9b59b6"></button>
+            <button class="wb-color-btn" data-color="#e74c3c" style="background:#e74c3c"></button>
+            <button class="wb-color-btn" data-color="#2ecc71" style="background:#2ecc71"></button>
+            <button class="wb-color-btn" data-color="#3498db" style="background:#3498db"></button>
+            <button class="wb-color-btn" data-color="#f39c12" style="background:#f39c12"></button>
+          </div>
+          <div class="wb-sizes">
+            <button class="wb-size-btn" data-size="2">•</button>
+            <button class="wb-size-btn active" data-size="5">●</button>
+            <button class="wb-size-btn" data-size="12">⬤</button>
+          </div>
+          <div class="wb-actions">
+            <button class="wb-eraser-btn" id="wbEraser">🧹 Borrador</button>
+            <button class="btn btn-secondary" id="wbClear">🗑️ Limpiar todo</button>
+          </div>
+        </div>
+        <canvas id="wbCanvas"></canvas>
+      </div>
       </div>
     </div>
   </section>
@@ -241,6 +266,7 @@
         <a href="#" class="resource-link" data-tool-link="memory">🧠 Memoria</a>
         <a href="#" class="resource-link" data-tool-link="coloring">🎨 Colorear</a>
         <a href="#" class="resource-link" data-tool-link="stories">📖 Cuentos</a>
+        <a href="#" class="resource-link" data-tool-link="whiteboard">✏️ Pizarra</a>
       </div>
     </div>
   </section>
