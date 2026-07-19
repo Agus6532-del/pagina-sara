@@ -436,12 +436,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let wbCtx, drawing = false, erasing = false, wbColor = '#4a235a', wbSize = 5, lastX, lastY;
 
   function initWhiteboard() {
-    wbCanvas.width = wbCanvas.clientWidth * 2;
-    wbCanvas.height = wbCanvas.clientHeight * 2;
+    wbCanvas.width = 1400;
+    wbCanvas.height = 800;
     wbCtx = wbCanvas.getContext('2d');
     wbCtx.scale(2, 2);
     wbCtx.lineCap = 'round';
     wbCtx.lineJoin = 'round';
+    wbCtx.fillStyle = '#fff';
+    wbCtx.fillRect(0, 0, 700, 400);
   }
 
   function getPos(e) {
@@ -475,11 +477,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function stopDraw() { drawing = false; }
 
   // Init on first time whiteboard tab is shown
+  // Use setTimeout to ensure the browser has rendered the panel (display:block) before measuring
   let wbInitialized = false;
   document.querySelector('.tab-btn[data-tool="whiteboard"]').addEventListener('click', () => {
     if (!wbInitialized) {
-      initWhiteboard();
-      wbInitialized = true;
+      setTimeout(() => {
+        initWhiteboard();
+        wbInitialized = true;
+      }, 50);
     }
   });
 
