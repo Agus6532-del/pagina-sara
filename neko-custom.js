@@ -185,8 +185,8 @@
         pointer-events: ${this.allowBehaviorChange ? "auto" : "none"};
         cursor: ${this.allowBehaviorChange ? "pointer" : "default"};
         z-index: 999999;
-        left: ${this.x}96px;
-        top: ${this.y}96px;
+        left: ${this.x}px;
+        top: ${this.y}px;
         margin: 0;
         padding: 0;
         border: none;
@@ -312,8 +312,8 @@
     }
 
     updatePosition() {
-      this.element.style.left = Math.round(this.x) + "96px";
-      this.element.style.top = Math.round(this.y) + "96px";
+      this.element.style.left = Math.round(this.x) + "px";
+      this.element.style.top = Math.round(this.y) + "px";
     }
 
     update() {
