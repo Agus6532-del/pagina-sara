@@ -433,70 +433,55 @@ document.addEventListener('DOMContentLoaded', () => {
   // 11. PIZARRA VIRTUAL
   // =============================================
   const wbCanvas = document.getElementById('wbCanvas');
-  let wbCtx, drawing = false, erasing = false, wbColor = '#4a235a', wbSize = 5, lastX, lastY;
+  wbCanvas.width = 1400;
+  wbCanvas.height = 800;
+  const wbCtx = wbCanvas.getContext('2d');
+  wbCtx.scale(2, 2);
+  wbCtx.lineCap = 'round';
+  wbCtx.lineJoin = 'round';
+  wbCtx.fillStyle = '#fff';
+  wbCtx.fillRect(0, 0, 700, 400);
 
-  function initWhiteboard() {
-    wbCanvas.width = 1400;
-    wbCanvas.height = 800;
-    wbCtx = wbCanvas.getContext('2d');
-    wbCtx.scale(2, 2);
-    wbCtx.lineCap = 'round';
-    wbCtx.lineJoin = 'round';
-    wbCtx.fillStyle = '#fff';
-    wbCtx.fillRect(0, 0, 700, 400);
-  }
+  let wbDrawing = false, wbErasing = false, wbColor = '#4a235a', wbSize = 5, wbLastX, wbLastY;
 
-  function getPos(e) {
+  function wbGetPos(e) {
     const rect = wbCanvas.getBoundingClientRect();
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     return { x: clientX - rect.left, y: clientY - rect.top };
   }
 
-  function startDraw(e) {
-    drawing = true;
-    const pos = getPos(e);
-    lastX = pos.x;
-    lastY = pos.y;
+  function wbStartDraw(e) {
+    wbDrawing = true;
+    const pos = wbGetPos(e);
+    wbLastX = pos.x;
+    wbLastY = pos.y;
   }
 
-  function draw(e) {
-    if (!drawing) return;
+  function wbDraw(e) {
+    if (!wbDrawing) return;
     e.preventDefault();
-    const pos = getPos(e);
+    const pos = wbGetPos(e);
     wbCtx.beginPath();
-    wbCtx.moveTo(lastX, lastY);
+    wbCtx.moveTo(wbLastX, wbLastY);
     wbCtx.lineTo(pos.x, pos.y);
-    wbCtx.strokeStyle = erasing ? '#fff' : wbColor;
-    wbCtx.lineWidth = erasing ? wbSize * 3 : wbSize;
+    wbCtx.strokeStyle = wbErasing ? '#fff' : wbColor;
+    wbCtx.lineWidth = wbErasing ? wbSize * 3 : wbSize;
     wbCtx.stroke();
-    lastX = pos.x;
-    lastY = pos.y;
+    wbLastX = pos.x;
+    wbLastY = pos.y;
   }
 
-  function stopDraw() { drawing = false; }
+  function wbStopDraw() { wbDrawing = false; }
 
-  // Init on first time whiteboard tab is shown
-  // Use setTimeout to ensure the browser has rendered the panel (display:block) before measuring
-  let wbInitialized = false;
-  document.querySelector('.tab-btn[data-tool="whiteboard"]').addEventListener('click', () => {
-    if (!wbInitialized) {
-      setTimeout(() => {
-        initWhiteboard();
-        wbInitialized = true;
-      }, 50);
-    }
-  });
+  wbCanvas.addEventListener('mousedown', wbStartDraw);
+  wbCanvas.addEventListener('mousemove', wbDraw);
+  wbCanvas.addEventListener('mouseup', wbStopDraw);
+  wbCanvas.addEventListener('mouseleave', wbStopDraw);
+  wbCanvas.addEventListener('touchstart', wbStartDraw, { passive: false });
+  wbCanvas.addEventListener('touchmove', wbDraw, { passive: false });
+  wbCanvas.addEventListener('touchend', wbStopDraw);
 
-  wbCanvas.addEventListener('mousedown', startDraw);
-  wbCanvas.addEventListener('mousemove', draw);
-  wbCanvas.addEventListener('mouseup', stopDraw);
-  wbCanvas.addEventListener('mouseleave', stopDraw);
-  wbCanvas.addEventListener('touchstart', startDraw, { passive: false });
-  wbCanvas.addEventListener('touchmove', draw, { passive: false });
-  wbCanvas.addEventListener('touchend', stopDraw);
-
-  // Color buttons
   document.querySelectorAll('.wb-color-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelector('.wb-color-btn.active')?.classList.remove('active');
@@ -505,7 +490,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Size buttons
   document.querySelectorAll('.wb-size-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelector('.wb-size-btn.active')?.classList.remove('active');
@@ -514,16 +498,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Eraser
   document.getElementById('wbEraser').addEventListener('click', function () {
     this.classList.toggle('active');
-    erasing = this.classList.contains('active');
-    wbCanvas.style.cursor = erasing ? 'cell' : 'crosshair';
+    wbErasing = this.classList.contains('active');
+    wbCanvas.style.cursor = wbErasing ? 'cell' : 'crosshair';
   });
 
-  // Clear
   document.getElementById('wbClear').addEventListener('click', () => {
     wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
+    wbCtx.fillStyle = '#fff';
+    wbCtx.fillRect(0, 0, 700, 400);
   });
 
   // =============================================
