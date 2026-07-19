@@ -197,25 +197,25 @@
         -webkit-user-select: none;
       `;
 
-      // Create image element with defensive styles to prevent global CSS interference
-      const img = document.createElement("img");
-      img.style.cssText = `
+      // Use canvas instead of img to prevent flicker when swapping frames
+      this.canvas = document.createElement("canvas");
+      this.canvas.width = 96;
+      this.canvas.height = 96;
+      this.canvas.style.cssText = `
         width: 100%;
         height: 100%;
         background: transparent;
         border: none;
         margin: 0;
         padding: 0;
-        max-width: none;
-        max-height: none;
         display: block;
         box-sizing: border-box;
         user-select: none;
         -webkit-user-select: none;
-        -webkit-user-drag: none;
         pointer-events: none;
       `;
-      this.element.appendChild(img);
+      this.ctx = this.canvas.getContext("2d");
+      this.element.appendChild(this.canvas);
 
       document.body.appendChild(this.element);
 
@@ -286,6 +286,13 @@
 
     setSprites(sprites) {
       this.spriteImages = sprites;
+      // Preload all sprites as Image objects for flicker-free rendering
+      this.preloaded = [];
+      for (let i = 0; i < sprites.length; i++) {
+        const img = new Image();
+        img.src = sprites[i];
+        this.preloaded.push(img);
+      }
       this.updateSprite();
     }
 
@@ -304,10 +311,11 @@
         frameIndex = this.animationTable[this.state][this.tickCount & 0x1];
       }
 
-      // Update the image
-      const img = this.element.querySelector("img");
-      if (img && this.spriteImages[frameIndex]) {
-        img.src = this.spriteImages[frameIndex];
+      // Draw on canvas (no flicker - atomic pixel update vs img.src swap)
+      const sprite = this.preloaded[frameIndex];
+      if (sprite && this.ctx) {
+        this.ctx.clearRect(0, 0, 96, 96);
+        this.ctx.drawImage(sprite, 0, 0);
       }
     }
 
