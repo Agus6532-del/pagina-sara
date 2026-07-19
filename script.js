@@ -436,19 +436,21 @@ document.addEventListener('DOMContentLoaded', () => {
   wbCanvas.width = 1400;
   wbCanvas.height = 800;
   const wbCtx = wbCanvas.getContext('2d');
-  wbCtx.scale(2, 2);
   wbCtx.lineCap = 'round';
   wbCtx.lineJoin = 'round';
   wbCtx.fillStyle = '#fff';
-  wbCtx.fillRect(0, 0, 700, 400);
+  wbCtx.fillRect(0, 0, 1400, 800);
 
-  let wbDrawing = false, wbErasing = false, wbColor = '#4a235a', wbSize = 5, wbLastX, wbLastY;
+  let wbDrawing = false, wbErasing = false, wbColor = '#4a235a', wbSize = 10, wbLastX, wbLastY;
 
   function wbGetPos(e) {
     const rect = wbCanvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return { x: clientX - rect.left, y: clientY - rect.top };
+    const cssX = e.touches ? e.touches[0].clientX : e.clientX;
+    const cssY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: (cssX - rect.left) / rect.width * 1400,
+      y: (cssY - rect.top) / rect.height * 800
+    };
   }
 
   function wbStartDraw(e) {
@@ -505,9 +507,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('wbClear').addEventListener('click', () => {
-    wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
+    wbCtx.clearRect(0, 0, 1400, 800);
     wbCtx.fillStyle = '#fff';
-    wbCtx.fillRect(0, 0, 700, 400);
+    wbCtx.fillRect(0, 0, 1400, 800);
   });
 
   // =============================================
