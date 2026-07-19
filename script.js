@@ -436,9 +436,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let wbCtx, drawing = false, erasing = false, wbColor = '#4a235a', wbSize = 5, lastX, lastY;
 
   function initWhiteboard() {
-    const rect = wbCanvas.getBoundingClientRect();
-    wbCanvas.width = rect.width * 2;
-    wbCanvas.height = rect.height * 2;
+    wbCanvas.width = wbCanvas.clientWidth * 2;
+    wbCanvas.height = wbCanvas.clientHeight * 2;
     wbCtx = wbCanvas.getContext('2d');
     wbCtx.scale(2, 2);
     wbCtx.lineCap = 'round';
