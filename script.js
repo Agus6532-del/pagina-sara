@@ -433,20 +433,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // 10. NEKO GATITO MORADO (sigue el mouse)
   // =============================================
   window.neko = createNeko({ speed: 24 });
-  console.log('🧪 NEKO creado:', window.neko);
-  console.log('🧪 Elemento en DOM:', document.querySelector('.neko'));
-  
-  // Debug a los 3 segundos
-  setTimeout(() => {
-    const el = document.querySelector('.neko');
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      console.log('🧪 NEKO rect:', rect);
-      console.log('🧪 NEKO style:', el.style.cssText);
-      console.log('🧪 NEKO img src:', el.querySelector('img')?.src?.slice(0, 60));
-    } else {
-      console.error('🧪 NEKO NO ENCONTRADO en el DOM');
-    }
-  }, 3000);
 
 });
