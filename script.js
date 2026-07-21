@@ -340,7 +340,186 @@ document.addEventListener('DOMContentLoaded', () => {
   wordBtn.addEventListener('click', randomWord);
 
   // =============================================
-  // 8. COLORING PAGES
+  // 8. QUIZ DE VOCABULARIO
+  // =============================================
+  const quizData = [
+    { emoji: '🐱', english: 'Cat', spanish: 'Gato', cat: 'animals' },
+    { emoji: '🐶', english: 'Dog', spanish: 'Perro', cat: 'animals' },
+    { emoji: '🐰', english: 'Rabbit', spanish: 'Conejo', cat: 'animals' },
+    { emoji: '🐻', english: 'Bear', spanish: 'Oso', cat: 'animals' },
+    { emoji: '🦊', english: 'Fox', spanish: 'Zorro', cat: 'animals' },
+    { emoji: '🐸', english: 'Frog', spanish: 'Rana', cat: 'animals' },
+    { emoji: '🐟', english: 'Fish', spanish: 'Pez', cat: 'animals' },
+    { emoji: '🐦', english: 'Bird', spanish: 'Pájaro', cat: 'animals' },
+    { emoji: '🐴', english: 'Horse', spanish: 'Caballo', cat: 'animals' },
+    { emoji: '🐷', english: 'Pig', spanish: 'Cerdo', cat: 'animals' },
+    { emoji: '🍎', english: 'Apple', spanish: 'Manzana', cat: 'food' },
+    { emoji: '🍌', english: 'Banana', spanish: 'Plátano', cat: 'food' },
+    { emoji: '🍦', english: 'Ice Cream', spanish: 'Helado', cat: 'food' },
+    { emoji: '🍪', english: 'Cookie', spanish: 'Galleta', cat: 'food' },
+    { emoji: '🍉', english: 'Watermelon', spanish: 'Sandía', cat: 'food' },
+    { emoji: '🍓', english: 'Strawberry', spanish: 'Frutilla', cat: 'food' },
+    { emoji: '🍕', english: 'Pizza', spanish: 'Pizza', cat: 'food' },
+    { emoji: '🧀', english: 'Cheese', spanish: 'Queso', cat: 'food' },
+    { emoji: '🥛', english: 'Milk', spanish: 'Leche', cat: 'food' },
+    { emoji: '🍫', english: 'Chocolate', spanish: 'Chocolate', cat: 'food' },
+    { emoji: '🔴', english: 'Red', spanish: 'Rojo', cat: 'colors' },
+    { emoji: '🟢', english: 'Green', spanish: 'Verde', cat: 'colors' },
+    { emoji: '🔵', english: 'Blue', spanish: 'Azul', cat: 'colors' },
+    { emoji: '🟡', english: 'Yellow', spanish: 'Amarillo', cat: 'colors' },
+    { emoji: '🟠', english: 'Orange', spanish: 'Naranja', cat: 'colors' },
+    { emoji: '🟣', english: 'Purple', spanish: 'Morado', cat: 'colors' },
+    { emoji: '⚪', english: 'White', spanish: 'Blanco', cat: 'colors' },
+    { emoji: '⚫', english: 'Black', spanish: 'Negro', cat: 'colors' },
+    { emoji: '🟤', english: 'Brown', spanish: 'Marrón', cat: 'colors' },
+    { emoji: '🩷', english: 'Pink', spanish: 'Rosa', cat: 'colors' },
+    { emoji: '1️⃣', english: 'One', spanish: 'Uno', cat: 'numbers' },
+    { emoji: '2️⃣', english: 'Two', spanish: 'Dos', cat: 'numbers' },
+    { emoji: '3️⃣', english: 'Three', spanish: 'Tres', cat: 'numbers' },
+    { emoji: '4️⃣', english: 'Four', spanish: 'Cuatro', cat: 'numbers' },
+    { emoji: '5️⃣', english: 'Five', spanish: 'Cinco', cat: 'numbers' },
+    { emoji: '6️⃣', english: 'Six', spanish: 'Seis', cat: 'numbers' },
+    { emoji: '7️⃣', english: 'Seven', spanish: 'Siete', cat: 'numbers' },
+    { emoji: '8️⃣', english: 'Eight', spanish: 'Ocho', cat: 'numbers' },
+    { emoji: '9️⃣', english: 'Nine', spanish: 'Nueve', cat: 'numbers' },
+    { emoji: '🔟', english: 'Ten', spanish: 'Diez', cat: 'numbers' },
+  ];
+
+  const quizEmoji = document.getElementById('quizEmoji');
+  const quizEnglish = document.getElementById('quizEnglish');
+  const quizOptions = document.getElementById('quizOptions');
+  const quizFeedback = document.getElementById('quizFeedback');
+  const quizNext = document.getElementById('quizNext');
+  const quizCorrect = document.getElementById('quizCorrect');
+  const quizWrong = document.getElementById('quizWrong');
+  const quizProgressFill = document.getElementById('quizProgressFill');
+  const quizCatBtns = document.querySelectorAll('.quiz-cat-btn');
+
+  let quizQuestions = [];
+  let quizIndex = 0;
+  let quizScore = { correct: 0, wrong: 0 };
+  let quizAnswered = false;
+  let quizCurrentCat = 'all';
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function getWrongOptions(correctSpanish, count) {
+    const allSpanish = quizData.map(q => q.spanish);
+    const unique = [...new Set(allSpanish)];
+    const filtered = unique.filter(s => s !== correctSpanish);
+    const shuffled = shuffleArray([...filtered]);
+    return shuffled.slice(0, count);
+  }
+
+  function startQuiz(cat) {
+    quizCurrentCat = cat;
+    if (cat === 'all') {
+      quizQuestions = shuffleArray([...quizData]);
+    } else {
+      quizQuestions = shuffleArray(quizData.filter(q => q.cat === cat));
+    }
+    quizIndex = 0;
+    quizScore = { correct: 0, wrong: 0 };
+    quizCorrect.textContent = '0';
+    quizWrong.textContent = '0';
+    quizFeedback.textContent = '';
+    quizFeedback.className = 'quiz-feedback';
+    quizNext.style.display = 'none';
+    showQuestion();
+  }
+
+  function showQuestion() {
+    if (quizIndex >= quizQuestions.length) {
+      quizEmoji.textContent = '🎉';
+      quizEnglish.textContent = '¡Completaste el quiz!';
+      quizOptions.innerHTML = '';
+      quizFeedback.textContent = `✅ ${quizScore.correct} correctas — ❌ ${quizScore.wrong} incorrectas`;
+      quizFeedback.className = 'quiz-feedback correct-fb';
+      quizNext.style.display = 'none';
+      quizProgressFill.style.width = '100%';
+      return;
+    }
+
+    const q = quizQuestions[quizIndex];
+    quizEmoji.textContent = q.emoji;
+    quizEnglish.textContent = q.english;
+    quizFeedback.textContent = '';
+    quizFeedback.className = 'quiz-feedback';
+    quizNext.style.display = 'none';
+    quizAnswered = false;
+
+    const wrongOptions = getWrongOptions(q.spanish, 3);
+    const allOptions = shuffleArray([q.spanish, ...wrongOptions]);
+
+    quizOptions.innerHTML = '';
+    allOptions.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt-btn';
+      btn.textContent = opt;
+      btn.dataset.value = opt;
+      btn.addEventListener('click', () => selectAnswer(btn, q.spanish));
+      quizOptions.appendChild(btn);
+    });
+
+    const progress = ((quizIndex) / quizQuestions.length) * 100;
+    quizProgressFill.style.width = progress + '%';
+  }
+
+  function selectAnswer(btn, correctAnswer) {
+    if (quizAnswered) return;
+    quizAnswered = true;
+
+    const allBtns = quizOptions.querySelectorAll('.quiz-opt-btn');
+    allBtns.forEach(b => b.classList.add('disabled'));
+
+    const isCorrect = btn.dataset.value === correctAnswer;
+
+    allBtns.forEach(b => {
+      if (b.dataset.value === correctAnswer) {
+        b.classList.add('correct');
+      }
+    });
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      quizFeedback.textContent = '✅ ¡Correcto! 🎉';
+      quizFeedback.className = 'quiz-feedback correct-fb';
+      quizScore.correct++;
+      quizCorrect.textContent = quizScore.correct;
+    } else {
+      btn.classList.add('wrong');
+      quizFeedback.textContent = `❌ La respuesta era: ${correctAnswer}`;
+      quizFeedback.className = 'quiz-feedback wrong-fb';
+      quizScore.wrong++;
+      quizWrong.textContent = quizScore.wrong;
+    }
+
+    quizNext.style.display = 'inline-block';
+  }
+
+  quizNext.addEventListener('click', () => {
+    quizIndex++;
+    showQuestion();
+  });
+
+  quizCatBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      quizCatBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      startQuiz(btn.dataset.cat);
+    });
+  });
+
+  startQuiz('all');
+
+  // =============================================
+  // 9. COLORING PAGES
   // =============================================
   const coloringItems = document.querySelectorAll('.coloring-item');
   const coloringModal = document.getElementById('coloringModal');

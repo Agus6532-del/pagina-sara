@@ -38,6 +38,7 @@
         <button class="tab-btn" data-tool="memory">🧠 Memoria</button>
         <button class="tab-btn" data-tool="points">⭐ Puntos</button>
         <button class="tab-btn" data-tool="word">📖 Word of the Day</button>
+        <button class="tab-btn" data-tool="quiz">📝 Quiz</button>
         <button class="tab-btn" data-tool="coloring">🎨 Colorear</button>
         <button class="tab-btn" data-tool="stories">📖 Cuentos</button>
         <button class="tab-btn" data-tool="whiteboard">✏️ Pizarra</button>
@@ -103,6 +104,35 @@
           <div class="word-translation" id="wordTranslation">Gato</div>
         </div>
         <button class="btn" id="wordBtn">🔄 Nueva palabra</button>
+      </div>
+
+      <div class="tool-panel" id="tool-quiz">
+        <h3>📝 Quiz de vocabulario</h3>
+        <p>Elegí un tema y respondé las preguntas 💜</p>
+        <div class="quiz-categories">
+          <button class="quiz-cat-btn active" data-cat="all">🌟 Todas</button>
+          <button class="quiz-cat-btn" data-cat="animals">🐱 Animals</button>
+          <button class="quiz-cat-btn" data-cat="food">🍎 Food</button>
+          <button class="quiz-cat-btn" data-cat="colors">🌈 Colors</button>
+          <button class="quiz-cat-btn" data-cat="numbers">🔢 Numbers</button>
+        </div>
+        <div class="quiz-card" id="quizCard">
+          <div class="quiz-emoji" id="quizEmoji">🐱</div>
+          <div class="quiz-english" id="quizEnglish">Cat</div>
+        </div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+        <div class="quiz-actions">
+          <button class="btn" id="quizNext">➡️ Siguiente</button>
+        </div>
+        <div class="quiz-score" id="quizScore">
+          <span>✅ <strong id="quizCorrect">0</strong></span>
+          <span class="quiz-sep">|</span>
+          <span>❌ <strong id="quizWrong">0</strong></span>
+        </div>
+        <div class="quiz-progress-bar" id="quizProgressBar">
+          <div class="quiz-progress-fill" id="quizProgressFill" style="width:0%"></div>
+        </div>
       </div>
 
       <div class="tool-panel" id="tool-coloring">
@@ -265,6 +295,7 @@
         <a href="#" class="resource-link" data-tool-link="wheel">🎡 Ruleta</a>
         <a href="#" class="resource-link" data-tool-link="flashcards">🃏 Flashcards</a>
         <a href="#" class="resource-link" data-tool-link="memory">🧠 Memoria</a>
+        <a href="#" class="resource-link" data-tool-link="quiz">📝 Quiz</a>
         <a href="#" class="resource-link" data-tool-link="coloring">🎨 Colorear</a>
         <a href="#" class="resource-link" data-tool-link="stories">📖 Cuentos</a>
         <a href="#" class="resource-link" data-tool-link="whiteboard">✏️ Pizarra</a>
